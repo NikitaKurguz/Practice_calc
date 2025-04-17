@@ -15,67 +15,45 @@ int Input_n()
 }
 double* Input_mnog(int n) 
 {
-	
     double* kefs = (double*)malloc((n + 1) * sizeof(double));
     cout << "Введите коэффициенты многочлена, начиная со старшей степени:" << endl;
     for (int i = n; i >= 0; i--)
     {
-        if (i != 0) cout << "Коэффициент при x^" << i << ": ";
-        else cout << "Свободный коэффициент: "; 
+        if (i > 1) cout << "Коэффициент при x^" << i << ": ";
+        if (i == 0) cout << "Свободный коэффициент: "; 
+        if (i == 1) cout << "Коэффициент при x: ";
         cin >> kefs[i];
     }
     return kefs;
 }
-void Output_mnog(double* kefs)
+void Output_mnog(double* kefs, int n)
 {
-    
-    int n = 0;
-    for (int i = 20; i >= 0; i--) {
-        if (kefs[i] != 0) {
-            n = i;
-            break;
+    cout << "P(" << n << ") = ";
+    int fl = 1;
+
+    for (int i = n; i >= 0; i--)
+    {
+        double a = kefs[i];
+        if (a == 0) { cout << " "; continue; }
+
+        if (fl == 0)
+        {
+            if (a > 0) cout << " + ";
         }
+        if (a < 0) cout << "-";
+        if (fabs(a) != 1 || i == 0) cout << fabs(a);
+
+        if (i > 1) cout << "x^" << i;
+        if (i == 1) cout << "x";
+        fl = 0;
     }
-
-    cout << "P(x) = ";
-    bool first_term = true; // Флаг для первого слагаемого
-
-    for (int i = n; i >= 0; i--) {
-        if (kefs[i] == 0) continue; // Пропускаем нулевые коэффициенты
-
-        // Обработка знака
-        if (!first_term) {
-            cout << (kefs[i] > 0 ? " + " : " - ");
-        }
-        else if (kefs[i] < 0) {
-            cout << "-";
-        }
-
-        // Вывод коэффициента (если он не 1 или -1, или это свободный член)
-        double abs_coef = abs(kefs[i]);
-        if (abs_coef != 1 || i == 0) {
-            cout << abs_coef;
-        }
-
-        // Вывод переменной x и степени
-        if (i > 0) {
-            cout << "x";
-            if (i > 1) {
-                cout << "^" << i;
-            }
-        }
-
-        first_term = false;
-    }
-    if (first_term) {
-        cout << "0";
-    }
-
+    if (fl == 1) cout << "0";
     cout << endl;
 }
 void run_calc()
 {
 	int n, st;
+    double* kefs;
 	cout << "Калькулятор многочленов." << endl;
 	while (1)
 	{
@@ -93,7 +71,8 @@ void run_calc()
     case 1: 
     {
         st = Input_n();
-        Input_mnog(st);
+        kefs = Input_mnog(st);
+        Output_mnog(kefs, st);
     }
 
     }
