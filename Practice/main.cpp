@@ -3,8 +3,9 @@
 using namespace std;
 int main()
 {
-	int n;
+	double* k;
 	system("chcp 1251>nul");
+	int n;
 	run_calc();
 	return 0;
 }
