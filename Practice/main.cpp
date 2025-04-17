@@ -1,8 +1,10 @@
 #include <iostream>
+#include "mnogochleni.h"
 using namespace std;
 int main()
 {
+	int n;
 	system("chcp 1251>nul");
-	cout << "Практика (Кургуз, Расписенко, Школа, Десятский)";
+	run_calc();
 	return 0;
 }

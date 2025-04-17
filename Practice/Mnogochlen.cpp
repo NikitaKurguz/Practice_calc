@@ -1,4 +1,5 @@
 #include <iostream>
+#include "mnogochleni.h"
 using namespace std;
 void run_calc()
 {
