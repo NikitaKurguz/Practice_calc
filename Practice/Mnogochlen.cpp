@@ -2,6 +2,7 @@
 #include <string>
 #include "mnogochleni.h"
 #include <malloc.h>
+#include <cmath>
 using namespace std;
 int Input_n()
 {
@@ -50,10 +51,20 @@ void Output_mnog(double* kefs, int n)
     if (fl == 1) cout << "0";
     cout << endl;
 }
+double* type1(int st1, int st2, double* kefs1, double* kefs2)
+{
+    int m_st;
+    m_st = max(st1, st2);
+    double* result_kefs = (double*)calloc(m_st + 1, sizeof(double));
+    for (int i = 0; i <= st1; i++) result_kefs[i] += kefs1[i];
+
+    for (int i = 0; i <= st2; i++) result_kefs[i] += kefs2[i];
+    return result_kefs;
+}
 void run_calc()
 {
-	int n, st;
-    double* kefs;
+	int n, st1, st2;
+    double* kefs1, *kefs2, *res;
 	cout << "Калькулятор многочленов." << endl;
 	while (1)
 	{
@@ -68,12 +79,23 @@ void run_calc()
 	}
     switch (n)
     {
-    case 1: 
+    case 1:
     {
-        st = Input_n();
-        kefs = Input_mnog(st);
-        Output_mnog(kefs, st);
+        st1 = Input_n();
+        kefs1 = Input_mnog(st1);
+        cout << "1 многочлен:" << endl;
+        Output_mnog(kefs1, st1);
+        st2 = Input_n();
+        kefs2 = Input_mnog(st2);
+        cout << "Второй многочлен:" << endl;
+        Output_mnog(kefs2, st2);
+        res = type1(st1, st2, kefs1, kefs2);
+        cout << "Результат после сложения: " << endl;
+        Output_mnog(res, max(st1, st2));
     }
+    case 2:
+    {
 
+    }
     }
 }
