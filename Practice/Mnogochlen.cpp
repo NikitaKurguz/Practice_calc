@@ -1,4 +1,4 @@
-#include <iostream>
+ï»¿#include <iostream>
 #include <string>
 #include "mnogochleni.h"
 #include <malloc.h>
@@ -9,7 +9,7 @@ int Input_n()
     int n;
     while (1)
     {
-        cout << "Ââåäèòå ñòåïåíü ìíîãî÷ëåíà (íå áîëåå 20): "; cin >> n;
+        cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚ÐµÐ¿ÐµÐ½ÑŒ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð° (Ð½Ðµ Ð±Ð¾Ð»ÐµÐµ 20): "; cin >> n;
         if (n > 0 && n <= 20) break;
     }
     return n;
@@ -17,21 +17,26 @@ int Input_n()
 double* Input_mnog(int n) 
 {
     double* kefs = (double*)malloc((n + 1) * sizeof(double));
-    cout << "Ââåäèòå êîýôôèöèåíòû ìíîãî÷ëåíà, íà÷èíàÿ ñî ñòàðøåé ñòåïåíè:" << endl;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÐºÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚Ñ‹ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð°, Ð½Ð°Ñ‡Ð¸Ð½Ð°Ñ ÑÐ¾ ÑÑ‚Ð°Ñ€ÑˆÐµÐ¹ ÑÑ‚ÐµÐ¿ÐµÐ½Ð¸:" << endl;
     for (int i = n; i >= 0; i--)
     {
-        if (i > 1) cout << "Êîýôôèöèåíò ïðè x^" << i << ": ";
-        if (i == 0) cout << "Ñâîáîäíûé êîýôôèöèåíò: "; 
-        if (i == 1) cout << "Êîýôôèöèåíò ïðè x: ";
+        if (i > 1) cout << "ÐšÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚ Ð¿Ñ€Ð¸ x^" << i << ": ";
+        if (i == 0) cout << "Ð¡Ð²Ð¾Ð±Ð¾Ð´Ð½Ñ‹Ð¹ ÐºÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚: "; 
+        if (i == 1) cout << "ÐšÐ¾ÑÑ„Ñ„Ð¸Ñ†Ð¸ÐµÐ½Ñ‚ Ð¿Ñ€Ð¸ x: ";
         cin >> kefs[i];
     }
     return kefs;
+}
+double Input_a()
+{
+    double a;
+    cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾ ÑƒÐ¼Ð½Ð¾Ð¶ÐµÐ½Ð¸Ñ: "; cin >> a;
+    return a;
 }
 void Output_mnog(double* kefs, int n)
 {
     cout << "P(" << n << ") = ";
     int fl = 1;
-
     for (int i = n; i >= 0; i--)
     {
         double a = kefs[i];
@@ -61,20 +66,33 @@ double* type1(int st1, int st2, double* kefs1, double* kefs2)
     for (int i = 0; i <= st2; i++) result_kefs[i] += kefs2[i];
     return result_kefs;
 }
+double* type2(int st1, int st2, double* kefs1, double* kefs2) 
+{
+    double* result = (double*)calloc(max(st1, st2) + 1, sizeof(double));
+    for (int i = 0; i <= st1; i++) result[i] += kefs1[i];
+    for (int i = 0; i <= st2; i++)  result[i] -= kefs2[i];
+    return result;
+}
+double* type3(int st1, double* kefs1, double a)
+{
+    for (int i = st1; i << st1 >= 0; i--) kefs1[i] *= a;
+    return kefs1;
+}
 void run_calc()
 {
 	int n, st1, st2;
     double* kefs1, *kefs2, *res;
-	cout << "Êàëüêóëÿòîð ìíîãî÷ëåíîâ." << endl;
+    int a;
+	cout << "ÐšÐ°Ð»ÑŒÐºÑƒÐ»ÑÑ‚Ð¾Ñ€ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð¾Ð²." << endl;
 	while (1)
 	{
-		cout << "'b' - âîçâðàò â ãëàâíîå ìåíþ" << endl;
-		cout << "1 - ñëîæåíèå ìíîãî÷ëåíîâ" << endl;
-		cout << "2 - âû÷èòàíèå ìíîãî÷ëåíîâ" << endl;
-		cout << "3 - óìíîæåíèå ìíîãî÷ëåíà íà ÷èñëî" << endl;
-		cout << "4 - âû÷èñëåíèå ïðîèçâîäíîé îò ìíîãî÷ëåíà" << endl;
-		cout << "5 - äåëåíèå ìíîãî÷ëåíîâ â ñòîëáèê" << endl;
-		cout << "Âûáåðèòå ðåæèì êàëüêóëÿòîðà: "; cin >> n;
+		cout << "'b' - Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‚ Ð² Ð³Ð»Ð°Ð²Ð½Ð¾Ðµ Ð¼ÐµÐ½ÑŽ" << endl;
+		cout << "1 - ÑÐ»Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð¾Ð²" << endl;
+		cout << "2 - Ð²Ñ‹Ñ‡Ð¸Ñ‚Ð°Ð½Ð¸Ðµ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð¾Ð²" << endl;
+		cout << "3 - ÑƒÐ¼Ð½Ð¾Ð¶ÐµÐ½Ð¸Ðµ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð° Ð½Ð° Ñ‡Ð¸ÑÐ»Ð¾" << endl;
+		cout << "4 - Ð²Ñ‹Ñ‡Ð¸ÑÐ»ÐµÐ½Ð¸Ðµ Ð¿Ñ€Ð¾Ð¸Ð·Ð²Ð¾Ð´Ð½Ð¾Ð¹ Ð¾Ñ‚ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð°" << endl;
+		cout << "5 - Ð´ÐµÐ»ÐµÐ½Ð¸Ðµ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð¾Ð² Ð² ÑÑ‚Ð¾Ð»Ð±Ð¸Ðº" << endl;
+		cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ñ€ÐµÐ¶Ð¸Ð¼ ÐºÐ°Ð»ÑŒÐºÑƒÐ»ÑÑ‚Ð¾Ñ€Ð°: "; cin >> n;
 		if (n > 0 && n <= 5) break;
 	}
     switch (n)
@@ -83,19 +101,40 @@ void run_calc()
     {
         st1 = Input_n();
         kefs1 = Input_mnog(st1);
-        cout << "1 ìíîãî÷ëåí:" << endl;
+        cout << "1 Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½:" << endl;
         Output_mnog(kefs1, st1);
         st2 = Input_n();
         kefs2 = Input_mnog(st2);
-        cout << "Âòîðîé ìíîãî÷ëåí:" << endl;
+        cout << "Ð’Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½:" << endl;
         Output_mnog(kefs2, st2);
         res = type1(st1, st2, kefs1, kefs2);
-        cout << "Ðåçóëüòàò ïîñëå ñëîæåíèÿ: " << endl;
+        cout << "Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ð¾ÑÐ»Ðµ ÑÐ»Ð¾Ð¶ÐµÐ½Ð¸Ñ: " << endl;
         Output_mnog(res, max(st1, st2));
-    }
+    }; break;
     case 2:
     {
-
-    }
+        st1 = Input_n();
+        kefs1 = Input_mnog(st1);
+        cout << "1 Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½:" << endl;
+        Output_mnog(kefs1, st1);
+        st2 = Input_n();
+        kefs2 = Input_mnog(st2);
+        cout << "Ð’Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½:" << endl;
+        Output_mnog(kefs2, st2);
+        res = type2(st1, st2, kefs1, kefs2);
+        cout << "Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ð¾ÑÐ»Ðµ Ð²Ñ‹Ñ‡Ð¸Ñ‚Ð°Ð½Ð¸Ñ: " << endl;
+        Output_mnog(res, max(st1, st2));
+    }; break;
+    case 3:
+    {
+        st1 = Input_n();
+        kefs1 = Input_mnog(st1);
+        cout << "1 Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½:" << endl;
+        Output_mnog(kefs1, st1);
+        a = Input_a();
+        kefs2 = type3(st1, kefs1, a);
+        cout << "Ð ÐµÐ·ÑƒÐ»ÑŒÑ‚Ð°Ñ‚ Ð¿Ð¾ÑÐ»Ðµ ÑƒÐ¼Ð½Ð¾Ð¶ÐµÐ½Ð¸Ñ Ð¼Ð½Ð¾Ð³Ð¾Ñ‡Ð»ÐµÐ½Ð° Ð½Ð° Ñ‡Ð¸ÑÐ»Ð¾: " << endl;
+        Output_mnog(kefs2, st1);
+    }; break;
     }
 }
