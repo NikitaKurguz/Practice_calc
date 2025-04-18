@@ -165,6 +165,7 @@ void menu(){
                 vvodMatr2(matr2,&stolbci,&stroki);
                 printf("результат сложения этих матриц:\n");
                 slojenieMatr(matr1,matr2,stolbci,stroki,stroki1,stolbci1);
+            break;
             case 2:
                 printf("введите первую матрицу:\n");
                 vvodMatr1(matr1,&stolbci,&stroki);
@@ -172,6 +173,7 @@ void menu(){
                 vvodMatr2(matr2,&stolbci,&stroki);
                 printf("результат вычитания этих матриц:\n");
                 vichitanieMatr(matr1,matr2,stolbci,stroki);
+            break;
             case 3:
                 printf("введите первую матрицу:\n");
                 vvodMatr1(matr1,&stolbci,&stroki);
@@ -179,26 +181,31 @@ void menu(){
                 vvodMatr2(matr2,&stolbci1,&stroki);
                 printf("результат умножения этих матриц:\n");
                 umnojenieMatr(matr1,matr2,stroki,stolbci,stolbci1);
+            break;
             case 4:
                 printf("введите матрицу:\n");
                 vvodMatr(matr,&stolbci,&stroki);
                 printf("результат умножения матрицы на число:\n");
                 umnojenieMatrNaChislo(matr,stroki,stolbci);
+            break;
             case 5:
                 printf("введите матрицу:\n");
                 vvodMatr(matr,&stolbci,&stroki);
                 printf("результат сложения матрицы с числом:\n");
                 slojenieMatrSChislom(matr,stroki,stolbci);
+            break;
             case 6:
                 printf("введите матрицу:\n");
                 vvodMatr(matr,&stolbci,&stroki);
                 printf("результат вычитания числа из матрицы:\n");
                 vichitanieMatrSChislom(matr,stroki,stolbci);
+            break;
             case 7:
                 printf("введите матрицу:\n");
                 vvodMatr(matr,&stolbci,&stroki);
                 printf("результат транспонирования матрицы:\n");
                 transponirovanieMatr(matr,stroki,stolbci);
+            break;
         }
     }while(n!=0);
 }
