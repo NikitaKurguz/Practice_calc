@@ -9,4 +9,9 @@ void umnojenieMatrNaChislo(double matr[100][100],int stroki,int stolbci,int chis
 void slojenieMatrSChislom(double matr[100][100],int stroki,int stolbci);
 void vichitanieMatrSChislom(double matr[100][100],int stroki,int stolbci);
 void transponirovanieMatr(double matr[100][100],int stroki,int stolbci);
+void opredelitelMatrOdinNaOdin(double matr[100][100],int stroki,int stolbci);
+void opredelitelMatrDvaNaDva(double matr[100][100],int stroki,int stolbci);
+void opredelitelMatrTriNaTri(double matr[100][100],int stroki,int stolbci);
+void opredelitelMatrChetireNaChetire(double matr[100][100],int stroki,int stolbci);
 void menu();
+
