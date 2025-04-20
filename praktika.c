@@ -158,9 +158,53 @@ void opredelitelMatrChetireNaChetire(double matr[100][100],int stroki,int stolbc
     res=matr[0][0]*((matr[1][1]*matr[2][2]*matr[3][3])+(matr[2][1]*matr[3][2]*matr[1][3])+(matr[1][2]*matr[2][3]*matr[3][1])-(matr[1][3]*matr[2][2]*matr[3][1])-(matr[3][2]*matr[2][3]*matr[1][1])-(matr[2][1]*matr[1][2]*matr[3][3]))-matr[0][1]*((matr[1][0]*matr[2][2]*matr[3][3])+(matr[2][0]*matr[3][2]*matr[1][3])+(matr[1][2]*matr[2][3]*matr[3][0])-(matr[1][3]*matr[2][2]*matr[3][0])-(matr[2][3]*matr[3][2]*matr[1][0])-(matr[2][0]*matr[1][2]*matr[3][2]))+matr[0][2]*((matr[1][0]*matr[2][1]*matr[3][3])+(matr[1][1]*matr[2][3]*matr[3][0])+(matr[2][0]*matr[3][1]*matr[1][3])-(matr[1][3]*matr[2][1]*matr[3][0])-(matr[3][1]*matr[2][3]*matr[1][0])-(matr[2][0]*matr[1][1]*matr[3][3]))-matr[0][3]*((matr[1][0]*matr[2][1]*matr[3][3])+(matr[2][0]*matr[3][1]*matr[1][2])+(matr[1][1]*matr[2][2]*matr[3][0])-(matr[1][2]*matr[2][1]*matr[3][0])-(matr[3][1]*matr[2][2]*matr[1][0])-(matr[2][0]*matr[1][1]*matr[3][3]));
     printf("опредлдеитлеь 4х4 = %.1lf",res);
 }
+void obratnayaMatrDvaNaDva(double matr[100][100],int stroki,int stolbci){
+    double res,algebraicheskieDopolneniya[100][100];
+    int i,j;
+    res=matr[0][0]*matr[1][1]-matr[0][1]*matr[1][0];
+        algebraicheskieDopolneniya[0][0]=matr[1][1];
+        algebraicheskieDopolneniya[0][1]=-matr[1][0];
+        algebraicheskieDopolneniya[1][0]=-matr[0][1];
+        algebraicheskieDopolneniya[1][1]=matr[0][0];
+        printf("обратная матрица:\n");
+        for(i=0;i<stolbci;i++){
+            for(j=0;j<stroki;j++){
+                printf("%.2lf ",algebraicheskieDopolneniya[j][i]/res);
+            }
+            printf("\n");
+        }
+    }
+
+void obratnayaMatrTriNaTri(double matr[100][100],int stroki,int stolbci){
+    double res,algebraicheskieDopolneniya1[100][100];
+    int i,j;
+    res=(matr[0][0]*matr[1][1]*matr[2][2]+matr[0][1]*matr[1][2]*matr[2][0])+(matr[0][2]*matr[1][0]*matr[2][1])-(matr[0][2]*matr[1][1]*matr[2][0])-(matr[0][0]*matr[1][2]*matr[2][1])-(matr[0][1]*matr[1][0]*matr[2][2]);
+        algebraicheskieDopolneniya1[0][0]=matr[1][1]*matr[2][2]-matr[1][2]*matr[2][1];
+        algebraicheskieDopolneniya1[0][1]=-(matr[1][0]*matr[2][2]-matr[1][2]*matr[2][0]);
+        algebraicheskieDopolneniya1[0][2]=matr[1][0]*matr[2][1]-matr[1][1]*matr[2][0];
+        algebraicheskieDopolneniya1[1][0]=-(matr[0][1]*matr[2][2]-matr[0][2]*matr[2][1]);
+        algebraicheskieDopolneniya1[1][1]=matr[0][0]*matr[2][2]-matr[0][2]*matr[2][0];
+        algebraicheskieDopolneniya1[1][2]=-(matr[0][0]*matr[2][1]-matr[0][1]*matr[2][0]);
+        algebraicheskieDopolneniya1[2][0]=matr[0][1]*matr[1][2]-matr[0][2]*matr[1][1];
+        algebraicheskieDopolneniya1[2][1]=-(matr[0][0]*matr[1][2]-matr[0][2]*matr[1][0]);
+        algebraicheskieDopolneniya1[2][2]=matr[0][0]*matr[1][1]-matr[0][1]*matr[1][0];
+        printf("обратная матрица:\n");
+        for(i=0;i<stolbci;i++){
+            for(j=0;j<stroki;j++){
+                printf("%.2lf ",algebraicheskieDopolneniya1[j][i]/res);
+            }
+            printf("\n");
+        }
+    }
+void obratnayaMatrOdinNaOdin(double matr[100][100],int stroki,int stolbci){
+    double res;
+    res=matr[0][0];
+    printf("обратная матрица:\n");
+    printf("%.2lf",res);
+}
 void menu(){
     double matr[100][100],matr1[100][100],matr2[100][100];
-    int stroki,stolbci,stroki1,stolbci1,stroki2,stolbci2,n;
+    int stroki,stolbci,stroki1,stolbci1,stroki2,stolbci2,n,n1,n2;
     do{
         printf("меню выбора действий над матрицей\n");
         printf("1.сложение двух матриц\n");
@@ -170,10 +214,8 @@ void menu(){
         printf("5.прибавление числа к матрице\n");
         printf("6.вычистание числа из матрицы\n");
         printf("7.транспонирование матрицы\n");
-        printf("8.определитель матрицы 1х1\n");
-        printf("9.определитель матрицы 2х2\n");
-        printf("10.определитель матрицы 3х3\n");
-        printf("11.определитель матрицы 4х4\n");
+        printf("8.определитель матриц\n");
+        printf("9.обратные матрицы\n");
         printf("0.выход\n");
         scanf("%d",&n);
         switch(n){
@@ -196,7 +238,7 @@ void menu(){
                     vvodMatr1(matr1,&stolbci,&stroki);
                     printf("введите вторую матрицу:\n");
                     vvodMatr2(matr2,&stolbci,&stroki);
-                    if (stroki != stroki1 || stolbci != stolbci1){
+                    if (stroki!=stroki1 || stolbci!=stolbci1){
                         printf("размеры матриц не совпадают\n");
                     }
                 }while(stroki!=stroki1 || stolbci!=stolbci1);
@@ -241,48 +283,97 @@ void menu(){
                 transponirovanieMatr(matr,stroki,stolbci);
                 break;
             case 8:
-                do{
-                    printf("введите матрицу:\n");
-                    vvodMatr(matr,&stolbci,&stroki);
-                    if (stroki!=1 || stolbci!=1){
-                        printf("размеры не совпадают");
-                    }
-                }while(stroki!=1 || stolbci!=1);
-                opredelitelMatrOdinNaOdin(matr,stroki,stolbci);
-                break;
+                printf("выберите, какого размера матрицы вы хотите найти определитель?\n");
+                printf("1.матрицы 1х1\n");
+                printf("2.матрица 2х2\n");
+                printf("3.матрица 3х3\n");
+                printf("4.матрица 4х4\n");
+                scanf("%d",&n1);
+                switch(n1){
+                    case 1:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=1 || stolbci!=1){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=1 || stolbci!=1);
+                        opredelitelMatrOdinNaOdin(matr,stroki,stolbci);
+                        break;
+                    case 2:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=2 || stolbci!=2){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=2 || stolbci!=2);
+                        opredelitelMatrDvaNaDva(matr,stroki,stolbci);
+                        break;
+                    case 3:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=3 || stolbci!=3){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=3 || stolbci!=3);
+                        opredelitelMatrTriNaTri(matr,stroki,stolbci);
+                        break;
+                    case 4:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=4 || stolbci!=4){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=4 || stolbci!=4 );
+                        opredelitelMatrChetireNaChetire(matr,stroki,stolbci);
+                        break;
+                }while(n1!=0);
             case 9:
-                do{
-                    printf("введите матрицу:\n");
-                    vvodMatr(matr,&stolbci,&stroki);
-                    if (stroki!=2 || stolbci!=2){
-                        printf("размеры не совпадают");
-                    }
-                }while(stroki!=2 || stolbci!=2);
-                opredelitelMatrDvaNaDva(matr,stroki,stolbci);
-                break;
-            case 10:
-                do{
-                    printf("введите матрицу:\n");
-                    vvodMatr(matr,&stolbci,&stroki);
-                    if (stroki!=3 || stolbci!=3){
-                        printf("размеры не совпадают");
-                    }
-                }while(stroki!=3 || stolbci!=3);
-                opredelitelMatrTriNaTri(matr,stroki,stolbci);
-                break;
-            case 11:
-                do{
-                    printf("введите матрицу:\n");
-                    vvodMatr(matr,&stolbci,&stroki);
-                    if (stroki!=4 || stolbci!=4){
-                        printf("размеры не совпадают");
-                    }
-                }while(stroki!=4 || stolbci!=4 );
-                opredelitelMatrChetireNaChetire(matr,stroki,stolbci);
-                break;
+                printf("выберите, для какой матрицы вы хотите найти обратную?\n");
+                printf("1.матрица 1х1\n");
+                printf("2.матрица 2х2\n");
+                printf("3.матрица 3х3\n");
+                scanf("%d",&n2);
+                switch(n2){
+                    case 1:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=1 || stolbci!=1){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=1 || stolbci!=1);
+                        obratnayaMatrOdinNaOdin(matr,stroki,stolbci);
+                        break;
+                    case 2:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=2 || stolbci!=2){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=2 || stolbci!=2);
+                        obratnayaMatrDvaNaDva(matr,stroki,stolbci);
+                        break;
+                    case 3:
+                        do{
+                            printf("введите матрицу:\n");
+                            vvodMatr(matr,&stolbci,&stroki);
+                            if (stroki!=3 || stolbci!=3){
+                                printf("размеры не совпадают");
+                            }
+                        }while(stroki!=3 || stolbci!=3);
+                        obratnayaMatrTriNaTri(matr,stroki,stolbci);
+                        break;
+                }while(n2!=0);
         }
     }while(n!=0);
 }
     
+
+
 
 
