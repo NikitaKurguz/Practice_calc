@@ -17,4 +17,5 @@ double* type2(int st1, int st2, double* kefs1, double* kefs2);
 double* type3(int st1, double* kefs1, double a);
 double* type4(int& st1, double* kefs1);
 Del_mnog type5(double* kefs1, int st1, double* kefs2, int st2);
+double* type6(double* kefs1, int st1, double* kefs2, int st2);
 #endif //MNOGOCHLENI_H
