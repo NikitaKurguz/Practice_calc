@@ -3,36 +3,69 @@
 #include "mnogochleni.h"
 #include <malloc.h>
 #include <cmath>
+#include <limits>
 using namespace std;
-int Input_n()
+int Input_n() 
 {
     int n;
-    while (1)
+    while (1) 
     {
-        cout << "Введите степень многочлена (не более 20): "; cin >> n;
-        if (n >= 0 && n <= 20) break;
+        cout << "Введите степень многочлена (от 0 до 20): ";
+        if (cin >> n) 
+        {
+            if (n >= 0 && n <= 20) break;
+            else cout << "Ошибка! Степень должна быть от 0 до 20. Попробуйте снова." << endl;
+        }
+        else 
+        {
+            cout << "Ошибка ввода! Пожалуйста, введите целое число." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
     }
     return n;
 }
-double* Input_mnog(int n)
-{
+double* Input_mnog(int n) {
     double* kefs = (double*)malloc((n + 1) * sizeof(double));
     cout << "Введите коэффициенты многочлена, начиная со старшей степени:" << endl;
-    for (int i = n; i >= 0; i--)
+
+    for (int i = n; i >= 0; i--) 
     {
-        if (i > 1) cout << "Коэффициент при x^" << i << ": ";
-        if (i == 0) cout << "Свободный коэффициент: ";
-        if (i == 1) cout << "Коэффициент при x: ";
-        cin >> kefs[i];
+        while (1) 
+        {
+            if (i > 1) cout << "Коэффициент при x^" << i << ": ";
+            if (i == 0) cout << "Свободный коэффициент: ";
+            if (i == 1) cout << "Коэффициент при x: ";
+
+            if (cin >> kefs[i]) break;
+            else 
+            {
+                cout << "Ошибка ввода! Пожалуйста, введите число." << endl;
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            }
+        }
     }
     return kefs;
 }
-double Input_a()
+
+double Input_a() 
 {
     double a;
-    cout << "Введите число умножения: "; cin >> a;
+    while (true) 
+    {
+        cout << "Введите число умножения: ";
+        if (cin >> a) break;
+        else 
+        {
+            cout << "Ошибка ввода! Пожалуйста, введите число." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
     return a;
 }
+
 void Output_mnog(double* kefs, int n)
 {
     cout << "P(" << n << ") = ";
@@ -242,9 +275,8 @@ void run_calc()
             cout << "Остаток: ";
             Output_mnog(Data.kefs_ost, Data.st_ost);
         }; break;
-        default: return; break;
+        default: cout << "Возврат в главное меню..." << endl; return; break;
         }
         cout << "\n----------------------------------------------------\n";
     }
-
 }
