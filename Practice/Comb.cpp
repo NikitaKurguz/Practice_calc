@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Comb.h"
+#include "Combs.h"
 using namespace std;
 #include <cmath>
 
