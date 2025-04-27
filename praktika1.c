@@ -3,23 +3,24 @@
 #include <stdlib.h>
 int proverkaVvoda(){
     int chislo2;
-    while (scanf("%d",&chislo2)!=1){
-        while (getchar()!='\n');
+    while(scanf("%d",&chislo2)!=1){
+        while(getchar()!='\n');
         printf("вы ввели не число, повторите попытку: ");
     }
     return chislo2;
 }
 double proverkaVvoda1(){
     double chislo2;
-    while (scanf("%lf",&chislo2)!=1){
-        while (getchar()!='\n');
+    char c;
+    while(scanf("%lf%c",&chislo2,&c)!=2 || c!='\n'){
+        while(getchar()!='\n');
         printf("вы ввели не число, повторите попытку: ");
     }
     return chislo2;
 }
 void mNaN(double m,double n){
     double res;
-    if (m>n){
+    if(m>n){
         printf("m не может быть > n");
     }
     if(n<0 || m<0){
@@ -29,7 +30,42 @@ void mNaN(double m,double n){
         printf("нельзя делить на ноль");
     }
     res=m/n;
-    printf("результат = %.2lf",res);
+    printf("результат = %.5lf",res);
+}
+void matOjidaniye(){
+    int i,n;
+    double *p,*x,res=0.0,sum=0.0;
+    printf("введите n\n");
+    do{
+        n=proverkaVvoda();
+        if (n<=0){
+            printf("n должно быть > 0\n");
+        }
+    }while(n<=0);
+    
+    p=(double*)malloc(n*sizeof(double));
+    x=(double*)malloc(n*sizeof(double));
+    for (i=0;i<n;i++){
+        printf("введите x[%d]\n",i);
+        x[i]=proverkaVvoda1();
+        do{
+            printf("введите p[%d]\n",i);
+            p[i]=proverkaVvoda1();
+            if (p[i]<0 || p[i]>1){
+                printf("вероятность превышает 1.повторите ввод\n");
+            }
+        }while(p[i]>1 || p[i]<0);
+        res=res+p[i];
+    }
+    if (res<0.999999 || res>1.00001){
+        printf("вероятность должна быть = 1\n");
+    }
+    for (i=0;i<n;i++){
+        sum=sum+(x[i]*p[i]);
+    }
+    printf("математическое ожидание = %.2lf",sum);
+    free(x);
+    free(p);
 }
 void menu(){
     double m,n;
@@ -37,6 +73,7 @@ void menu(){
     do{
         printf("меню выбора для теории вероятности\n");
         printf("1.вероятность m/n\n");
+        printf("2.мат.ожидание\n");
         printf("0.выход\n");
         o=proverkaVvoda();
         switch(o){
@@ -57,6 +94,10 @@ void menu(){
                 }while (n==0 || m>n || n<0 ||m<0);
                 mNaN(m,n);
                 break;
+            case 2:
+                matOjidaniye();
+                break;
+                
         }
     }while (o!=0);
 }
