@@ -1,24 +1,9 @@
-#include <iostream>
-#include <limits> 
+ï»¿#include <iostream>
+#include <limits>
 #include "Combs.h"
 #include <cmath>
 using namespace std;
-void input_n(int n)
-{
-    while (1)
-    {
-        cout << "n = "; cin >> n;
-        if (n > 0) { cout << "n > 0"; break; }
-    }
-}
-void input_k(int k)
-{
-    while (1)
-    {
-        cout << "k = "; cin >> k;
-        if (k > 0) { cout << "k > 0"; break; }
-    }
-}
+
 unsigned long long fact(int n)
 {
     if (n == 0 || n == 1) return 1;
@@ -26,7 +11,6 @@ unsigned long long fact(int n)
     for (int i = 2; i <= n; i++) fact *= i;
     return fact;
 }
-
 unsigned long long t1(int n, int k) 
 { 
     return pow(n, k); 
@@ -47,83 +31,114 @@ unsigned long long t5(int n)
 { 
     return fact(n); 
 }
+void input_n(int& n) 
+{
+    while (1) 
+    {
+        cout << "n = ";
+        if (cin >> n) 
+        {
+            if (n > 0) break;
+            else cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: n Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ 0." << endl;
+        }
+        else 
+        {
+            cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ð²Ð²Ð¾Ð´Ð°! ÐŸÐ¾Ð¶Ð°Ð»ÑƒÐ¹ÑÑ‚Ð°, Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
 
+void input_k(int& k) 
+{
+    while (true) 
+    {
+        cout << "k = ";
+        if (cin >> k) 
+        {
+            if (k > 0) break;
+            else cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: k Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ 0." << endl;
+        }
+        else 
+        {
+            cout << "ÐžÑˆÐ¸Ð±ÐºÐ° Ð²Ð²Ð¾Ð´Ð°! ÐŸÐ¾Ð¶Ð°Ð»ÑƒÐ¹ÑÑ‚Ð°, Ð²Ð²ÐµÐ´Ð¸Ñ‚Ðµ Ñ‡Ð¸ÑÐ»Ð¾." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+}
 void Menu()
 {
-    cout << "Êàëüêóëÿòîð ôîðìóë êîìáèíàòîðèêè" << endl;
-    cout << "1 - Ðàçìåùåíèå ñ ïîâòîðåíèåì: n^k" << endl;
-    cout << "2 - Ðàçìåùåíèå áåç ïîâòîðåíèé: n! / (n-k)!" << endl;
-    cout << "3 - Ñî÷åòàíèå ñ ïîâòîðåíèåì: (n+k-1)! / (k! * (n-1)!)" << endl;
-    cout << "4 - Ñî÷åòàíèå áåç ïîâòîðåíèé: n! / (k! * (n-k)!)" << endl;
-    cout << "5 - Ïåðåñòàíîâêè: n!" << endl;
-    cout << "0 - Âåðíóòüñÿ â ãëàâíîå ìåíþ" << endl;
-    cout << "Âûáåðèòå ïóíêò ìåíþ: ";
+    cout << "-------------------------------------" << endl;
+    cout << "ÐšÐ°Ð»ÑŒÐºÑƒÐ»ÑÑ‚Ð¾Ñ€ Ñ„Ð¾Ñ€Ð¼ÑƒÐ» ÐºÐ¾Ð¼Ð±Ð¸Ð½Ð°Ñ‚Ð¾Ñ€Ð¸ÐºÐ¸" << endl;
+    cout << "1 - Ð Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ñ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸ÐµÐ¼: n^k" << endl;
+    cout << "2 - Ð Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð±ÐµÐ· Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸Ð¹: n! / (n-k)!" << endl;
+    cout << "3 - Ð¡Ð¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ðµ Ñ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸ÐµÐ¼: (n+k-1)! / (k! * (n-1)!)" << endl;
+    cout << "4 - Ð¡Ð¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ðµ Ð±ÐµÐ· Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸Ð¹: n! / (k! * (n-k)!)" << endl;
+    cout << "5 - ÐŸÐµÑ€ÐµÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸: n!" << endl;
+    cout << "Ð›ÑŽÐ±Ð°Ñ Ð´Ñ€ÑƒÐ³Ð°Ñ ÐºÐ»Ð°Ð²Ð¸ÑˆÐ° - Ð²ÐµÑ€Ð½ÑƒÑ‚ÑŒÑÑ Ð² Ð³Ð»Ð°Ð²Ð½Ð¾Ðµ Ð¼ÐµÐ½ÑŽ" << endl;
+    cout << "Ð’Ñ‹Ð±ÐµÑ€Ð¸Ñ‚Ðµ Ð¿ÑƒÐ½ÐºÑ‚ Ð¼ÐµÐ½ÑŽ: ";
 }
-
-bool safeInput(int& value) {
-    cin >> value;
-    if (cin.fail()) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        return false;
-    }
-    return true;
-}
-int menu_comb()
+void menu_comb()
 {
     int m;
     do
     {
         Menu();
-        if (!safeInput(m)) {
-            cout << "Îøèáêà ââîäà. Âîçâðàò â ãëàâíîå ìåíþ." << endl;
-            return 0;
-        }
-
+        cin >> m;
         int n, k;
         switch (m)
         {
         case 1:
-            cout << "Ôîðìóëà: n^k" << endl;
-            cout << "Ââåäèòå n = ";
-            if (!safeInput(n)) return 0;
-            cout << "Ââåäèòå k = ";
-            if (!safeInput(k)) return 0;
-            cout << "Ðåçóëüòàò: " << t1(n, k) << endl;
+            cout << "Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: n^k" << endl;
+            input_n(n);
+            input_k(k);
+            cout << "Ð Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ " << k << " ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð¿Ð¾ " << n << " Ñ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸ÑÐ¼Ð¸: " << t1(n, k) << endl;
             break;
+
         case 2:
-            cout << "Ôîðìóëà: n! / (n-k)!" << endl;
-            cout << "Ââåäèòå n = ";
-            if (!safeInput(n)) return 0;
-            cout << "Ââåäèòå k = ";
-            if (!safeInput(k)) return 0;
-            cout << "Ðåçóëüòàò: " << t2(n, k) << endl;
+            cout << "Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: n! / (n-k)!" << endl;
+            input_n(n);
+            while (true)
+            {
+                input_k(k);
+                if (n < k)
+                    cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: n Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¸Ð»Ð¸ Ñ€Ð°Ð²Ð½Ð¾ k." << endl;
+                else break;
+            }
+            cout << "Ð Ð°Ð·Ð¼ÐµÑ‰ÐµÐ½Ð¸Ðµ " << k << " ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð¿Ð¾ " << n << " Ð±ÐµÐ· Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸Ð¹: " << t2(n, k) << endl;
             break;
+
         case 3:
-            cout << "Ôîðìóëà: (n+k-1)! / (k! * (n-1)!)" << endl;
-            cout << "Ââåäèòå n = ";
-            if (!safeInput(n)) return 0;
-            cout << "Ââåäèòå k = ";
-            if (!safeInput(k)) return 0;
-            cout << "Ðåçóëüòàò: " << t3(n, k) << endl;
+            cout << "Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: (n+k-1)! / (k! * (n-1)!)" << endl;
+            input_n(n);
+            input_k(k);
+            cout << "Ð¡Ð¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ðµ " << k << " ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð¸Ð· " << n << " Ñ Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸ÑÐ¼Ð¸: " << t3(n, k) << endl;
             break;
+
         case 4:
-            cout << "Ôîðìóëà: n! / (k! * (n-k)!)" << endl;
-            cout << "Ââåäèòå n = ";
-            if (!safeInput(n)) return 0;
-            cout << "Ââåäèòå k = ";
-            if (!safeInput(k)) return 0;
-            cout << "Ðåçóëüòàò: " << t4(n, k) << endl;
+            cout << "Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: n! / (k! * (n-k)!)" << endl;
+            input_n(n);
+            while (true)
+            {
+                input_k(k);
+                if (n < k)
+                    cout << "ÐžÑˆÐ¸Ð±ÐºÐ°: n Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð±Ñ‹Ñ‚ÑŒ Ð±Ð¾Ð»ÑŒÑˆÐµ Ð¸Ð»Ð¸ Ñ€Ð°Ð²Ð½Ð¾ k." << endl;
+                else break;
+            }
+            cout << "Ð¡Ð¾Ñ‡ÐµÑ‚Ð°Ð½Ð¸Ðµ " << k << " ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð² Ð¸Ð· " << n << " Ð±ÐµÐ· Ð¿Ð¾Ð²Ñ‚Ð¾Ñ€ÐµÐ½Ð¸Ð¹: " << t4(n, k) << endl;
             break;
+
         case 5:
-            cout << "Ôîðìóëà: n!" << endl;
-            cout << "Ââåäèòå n = ";
-            if (!safeInput(n)) return 0;
-            cout << "Ðåçóëüòàò: " << t5(n) << endl;
+            cout << "Ð¤Ð¾Ñ€Ð¼ÑƒÐ»Ð°: n!" << endl;
+            input_n(n);
+            cout << "ÐŸÐµÑ€ÐµÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ¸ Ð¸Ð· " << n << " ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚Ð¾Ð²: " << t5(n) << endl;
             break;
+
         default:
-            cout << "Íåâåðíûé âûáîð. Âîçâðàò â ãëàâíîå ìåíþ." << endl;
-            return 0;
+            cout << "Ð’Ð¾Ð·Ð²Ñ€Ð°Ñ‚ Ð² Ð³Ð»Ð°Ð²Ð½Ð¾Ðµ Ð¼ÐµÐ½ÑŽ." << endl;
+            return;
         }
         cout << endl;
     } while (1);
