@@ -1,13 +1,11 @@
 #include "Func.h"
 
-// Инициализация глобальных переменных
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
 Polynomial currentPoly;
 FunctionParams currentParams;
 int currentFunctionType = 0;
 
-// Функции проверки ввода
 double getNumber(const string& prompt) {
     double number;
     while (true) {
@@ -38,7 +36,6 @@ int getMenuChoice(int min, int max, const string& prompt) {
     }
 }
 
-// Математические функции
 double polynomial(double x, const Polynomial& poly) {
     double result = 0;
     for (int i = 0; i <= poly.degree; i++) {
@@ -79,7 +76,6 @@ double currentFunction(double x) {
     }
 }
 
-// Вычисление определенного интеграла методом трапеций
 double calculateIntegral(double (*func)(double), double a, double b, int n) {
     double h = (b - a) / n;
     double sum = 0.5 * (func(a) + func(b));
@@ -89,7 +85,6 @@ double calculateIntegral(double (*func)(double), double a, double b, int n) {
     return sum * h;
 }
 
-// Инициализация SDL
 bool initSDL() {
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
         cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << endl;
@@ -116,7 +111,6 @@ bool createSDLWindow() {
     return true;
 }
 
-// Закрытие SDL
 void closeSDL() {
     if (renderer) {
         SDL_DestroyRenderer(renderer);
@@ -129,22 +123,17 @@ void closeSDL() {
     SDL_Quit();
 }
 
-// Рисование графика функции
 void drawFunction(double (*func)(double), double xMin, double xMax, SDL_Color color) {
-    // Находим экстремумы функции
     double yMin, yMax;
     findExtremes(func, xMin, xMax, yMin, yMax);
 
-    // Добавляем 10% отступ по вертикали
     double yPadding = 0.1 * (yMax - yMin);
     yMin -= yPadding;
     yMax += yPadding;
 
-    // Вычисляем масштабные коэффициенты
     double xScale = (SCREEN_WIDTH - 2 * GRAPH_MARGIN) / (xMax - xMin);
     double yScale = (SCREEN_HEIGHT - 2 * GRAPH_MARGIN) / (yMax - yMin);
 
-    // Центр координат (0,0) в пикселях
     int zeroX = GRAPH_MARGIN + (-xMin) * xScale;
     int zeroY = SCREEN_HEIGHT - GRAPH_MARGIN - (-yMin) * yScale;
 
@@ -159,13 +148,11 @@ void drawFunction(double (*func)(double), double xMin, double xMax, SDL_Color co
         double x = xMin + px * (xMax - xMin) / (SCREEN_WIDTH - 2 * GRAPH_MARGIN);
         double y = func(x);
 
-        // Пропускаем недопустимые значения
         if (isnan(y) || isinf(y)) continue;
 
         int screenX = GRAPH_MARGIN + (x - xMin) * xScale;
         int screenY = SCREEN_HEIGHT - GRAPH_MARGIN - (y - yMin) * yScale;
 
-        // Ограничение координат
         screenY = max(GRAPH_MARGIN, min(SCREEN_HEIGHT - GRAPH_MARGIN, screenY));
 
         if (px > 0 && !isnan(prevY) && !isinf(prevY)) {
@@ -177,19 +164,15 @@ void drawFunction(double (*func)(double), double xMin, double xMax, SDL_Color co
         prevY = y;
     }
 
-    // Рисуем оси координат
+
     SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-    // Ось X (горизонтальная)
     SDL_RenderDrawLine(renderer,
         GRAPH_MARGIN, zeroY,
         SCREEN_WIDTH - GRAPH_MARGIN, zeroY);
-    // Ось Y (вертикальная)
     SDL_RenderDrawLine(renderer,
         zeroX, GRAPH_MARGIN,
         zeroX, SCREEN_HEIGHT - GRAPH_MARGIN);
 }
-
-// Поиск корня уравнения Y=0 методом деления отрезка пополам
 double findRoot(double (*func)(double), double a, double b, double epsilon) {
     double fa = func(a);
     double fb = func(b);
@@ -216,7 +199,6 @@ double findRoot(double (*func)(double), double a, double b, double epsilon) {
     return (a + b) / 2;
 }
 
-// Поиск экстремумов на отрезке
 void findExtremes(double (*func)(double), double a, double b, double& min, double& max) {
     const int N = 1000;
     double step = (b - a) / N;
@@ -271,4 +253,189 @@ FunctionParams inputFunctionParams() {
     params.c = getNumber("Введите параметр c: ");
     params.d = getNumber("Введите параметр d: ");
     return params;
+}
+
+int menu_function() {
+    setlocale(LC_ALL, "Russian");
+    if (!initSDL()) return 1;
+
+    int choice;
+    double a, b, epsilon;
+    SDL_Color color = { 0, 255, 0, 255 };
+
+    do {
+        Menu();
+        choice = getMenuChoice(1, 5, "Выберите действие: ");
+
+        switch (choice) {
+        case 1: {
+            currentFunctionType = FunctionType();
+
+            if (currentFunctionType == 1) {
+                currentPoly = inputPolynomial();
+            }
+            else {
+                currentParams = inputFunctionParams();
+            }
+
+            cout << "Введите границы отрезка:\n";
+            a = getNumber("Начало (a): ");
+            b = getNumber("Конец (b): ");
+
+            while (a >= b) {
+                cout << "Ошибка! Начало должно быть меньше конца!\n";
+                a = getNumber("Введите a: ");
+                b = getNumber("Введите b: ");
+            }
+
+            int n = getMenuChoice(1, 10000, "Введите количество разбиений (1-10000): ");
+            double result = calculateIntegral(currentFunction, a, b, n);
+            cout << "Значение интеграла: " << result << endl;
+
+            if (currentFunctionType == 1) delete[] currentPoly.coefficients;
+            break;
+        }
+
+        case 2: {
+            currentFunctionType = FunctionType();
+
+            if (currentFunctionType == 1) {
+                currentPoly = inputPolynomial();
+            }
+            else {
+                currentParams = inputFunctionParams();
+            }
+
+            cout << "Введите границы отрезка:\n";
+            a = getNumber("Xmin: ");
+            b = getNumber("Xmax: ");
+
+            if (currentFunctionType == 4) {
+                while (a <= 0) {
+                    cout << "Для логарифма X должен быть > 0!\n";
+                    a = getNumber("Введите Xmin: ");
+                }
+            }
+
+            while (a >= b) {
+                cout << "Xmin должен быть меньше Xmax!\n";
+                a = getNumber("Введите Xmin: ");
+                b = getNumber("Введите Xmax: ");
+            }
+
+            if (!createSDLWindow()) {
+                cout << "Ошибка создания окна!\n";
+                if (currentFunctionType == 1) delete[] currentPoly.coefficients;
+                break;
+            }
+
+            SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+            SDL_RenderClear(renderer);
+            drawFunction(currentFunction, a, b, color);
+            SDL_RenderPresent(renderer);
+
+            cout << "График отображен. Закройте окно для продолжения...\n";
+
+            SDL_Event e;
+            bool quit = false;
+            while (!quit) {
+                while (SDL_PollEvent(&e)) {
+                    if (e.type == SDL_QUIT) quit = true;
+                }
+                SDL_Delay(100);
+            }
+
+            SDL_DestroyRenderer(renderer);
+            SDL_DestroyWindow(window);
+            renderer = nullptr;
+            window = nullptr;
+
+            if (currentFunctionType == 1) delete[] currentPoly.coefficients;
+            break;
+        }
+
+        case 3: {
+            currentFunctionType = FunctionType();
+
+            if (currentFunctionType == 1) {
+                currentPoly = inputPolynomial();
+            }
+            else {
+                currentParams = inputFunctionParams();
+            }
+
+            cout << "Введите границы отрезка:\n";
+            a = getNumber("Начало (a): ");
+            b = getNumber("Конец (b): ");
+
+            if (currentFunctionType == 4) {
+                while (a <= 0) {
+                    cout << "Для логарифма X должен быть > 0!\n";
+                    a = getNumber("Введите a: ");
+                }
+            }
+
+            while (a >= b) {
+                cout << "Начало должно быть меньше конца!\n";
+                a = getNumber("Введите a: ");
+                b = getNumber("Введите b: ");
+            }
+
+            epsilon = getNumber("Введите точность (epsilon): ");
+            double root = findRoot(currentFunction, a, b, epsilon);
+
+            if (!isnan(root)) {
+                cout << "Найден корень: x = " << root << endl;
+            }
+            else {
+                cout << "Корень не найден на данном отрезке" << endl;
+            }
+
+            if (currentFunctionType == 1) delete[] currentPoly.coefficients;
+            break;
+        }
+
+        case 4: {
+            currentFunctionType = FunctionType();
+
+            if (currentFunctionType == 1) {
+                currentPoly = inputPolynomial();
+            }
+            else {
+                currentParams = inputFunctionParams();
+            }
+
+            cout << "Введите границы отрезка:\n";
+            a = getNumber("Начало (a): ");
+            b = getNumber("Конец (b): ");
+
+            if (currentFunctionType == 4) {
+                while (a <= 0) {
+                    cout << "Для логарифма X должен быть > 0!\n";
+                    a = getNumber("Введите a: ");
+                }
+            }
+
+            while (a >= b) {
+                cout << "Начало должно быть меньше конца!\n";
+                a = getNumber("Введите a: ");
+                b = getNumber("Введите b: ");
+            }
+
+            double min, max;
+            findExtremes(currentFunction, a, b, min, max);
+            cout << "Минимальное значение: " << min << endl;
+            cout << "Максимальное значение: " << max << endl;
+
+            if (currentFunctionType == 1) delete[] currentPoly.coefficients;
+            break;
+        }
+
+        case 5:
+            cout << "Завершение программы...\n";
+            break;
+        }
+    } while (choice != 5);
+    closeSDL();
+    return 0;
 }
