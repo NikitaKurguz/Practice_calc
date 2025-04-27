@@ -181,7 +181,6 @@ int main(int argc, char* argv[]) {
             break;
         }
     } while (choice != 5);
-
     closeSDL();
     return 0;
 }
