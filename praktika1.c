@@ -67,6 +67,43 @@ void matOjidaniye(){
     free(x);
     free(p);
 }
+void dispersiya(){
+    int i,n;
+    double *p,*x,res=0.0,sum=0.0,DISP=0.0;
+    printf("введите n\n");
+    do{
+        n=proverkaVvoda();
+        if (n<=0){
+            printf("n должно быть > 0\n");
+        }
+    }while(n<=0);
+    x=(double*)malloc(n*sizeof(double));
+    p=(double*)malloc(n*sizeof(double));
+    for (i=0;i<n;i++){
+        printf("введите x[%d]\n",i);
+        x[i]=proverkaVvoda1();
+        do{
+            printf("введите p[%d]\n",i);
+            p[i]=proverkaVvoda1();
+            if (p[i]<0 || p[i]>1){
+                printf("вероятность превышает 1.повторите ввод\n");
+            }
+        }while(p[i]>1 || p[i]<0);
+        res=res+p[i];
+    }
+    if (res<0.999999 || res>1.00001){
+        printf("вероятность должна быть = 1\n");
+    }
+    for (i=0;i<n;i++){
+        sum=sum+(x[i]*p[i]);
+    }
+    for (i=0;i<n;i++){
+        DISP=DISP+((x[i]-sum)*(x[i]-sum))*p[i];
+    }
+    printf("дисперсия = %.5lf",DISP);
+    free(p);
+    free(x);
+}
 void menu(){
     double m,n;
     int o;
@@ -74,6 +111,7 @@ void menu(){
         printf("меню выбора для теории вероятности\n");
         printf("1.вероятность m/n\n");
         printf("2.мат.ожидание\n");
+        printf("3.дисперсия\n");
         printf("0.выход\n");
         o=proverkaVvoda();
         switch(o){
@@ -97,7 +135,12 @@ void menu(){
             case 2:
                 matOjidaniye();
                 break;
-                
+            case 3:
+                dispersiya();
+                break;
+            case 0:
+                printf("программа завершена\n");
+                break;
         }
     }while (o!=0);
 }
