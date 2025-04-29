@@ -129,6 +129,10 @@
   <ItemGroup>
     <ClCompile Include="Comb.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mnogochlen.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mnogochleni.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Combs.h" />

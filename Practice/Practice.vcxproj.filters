@@ -18,6 +18,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
     <ClCompile Include="Mnogochlen.cpp">
@@ -35,5 +36,10 @@
     <ClInclude Include="Comb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+    <ClCompile Include="Matrix_calc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+>>>>>>> 88e7670398e7efa1d92a1078e4536777a701063e
   </ItemGroup>
 </Project>
