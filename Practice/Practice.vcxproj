@@ -128,10 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Comb.cpp" />
+    <ClCompile Include="fraction.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MatrCalc.cpp" />
     <ClCompile Include="Mnogochlen.cpp" />
+    <ClCompile Include="TerVer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="fraction.h" />
     <ClInclude Include="mnogochleni.h" />
   </ItemGroup>
   <ItemGroup>
