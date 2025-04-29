@@ -215,7 +215,17 @@ void run_calc()
         cout << "5 - деление многочленов в столбик" << endl;
         cout << "6 - умножение многочленов" << endl;
         cout << "другая - возврат в главное меню" << endl;
-        cout << "Выберите режим калькулятора: "; cin >> n;
+        cout << "Выберите режим калькулятора: "; 
+        while (true) {
+            cin >> n;
+            if (cin.fail()) 
+            {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                return;
+            }
+            else break;
+        }
         switch (n)
         {
         case 1:

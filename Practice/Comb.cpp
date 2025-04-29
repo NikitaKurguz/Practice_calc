@@ -86,7 +86,18 @@ void menu_comb()
     do
     {
         Menu();
-        cin >> m;
+        while (true) {
+            cin >> m;
+            if (cin.fail()) {
+                cin.clear(); 
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+                return; 
+            }
+            else {
+                break; 
+            }
+        }
+
         int n, k;
         switch (m)
         {

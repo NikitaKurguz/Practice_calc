@@ -1,31 +1,32 @@
-#define _CRT_SECURE_NO_WARNINGS
+﻿#define _CRT_SECURE_NO_WARNINGS
 #define SDL_MAIN_HANDLED
 #include <stdio.h>
-#include <locale.h>   
+#include <locale.h>
+#include <iostream>
 #include "MatrCalc.h" 
 #include "TerVer.h" 
 #include "Combs.h"      
 #include "mnogochleni.h" 
 #include "Func.h"
 #include "fraction.h"
-#include <iostream>
 using namespace std;
 int main() 
 {
-    setlocale(LC_ALL, "");
+    setlocale(LC_ALL, "Russian");
     int choice;
     int running = 1;
-
-    while (running) {
+    while (running) 
+    {
         display_main_menu();
-
-        if (scanf_s("%d", &choice) != 1) {
-            printf("Ошибка ввода! Пожалуйста, введите число.\n");
-            while (getchar() != '\n');
+        if (!(cin >> choice))
+        {
+            cin.clear(); 
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             continue;
         }
 
-        switch (choice) {
+        switch (choice) 
+        {
         case 1:
             fraction_calculator_run(); // Калькулятор дробей   
             break;
@@ -46,10 +47,9 @@ int main()
             break;
         case 0:
             running = 0;
-            printf("Программа завершена.\n");
             break;
         default:
-            printf("Неверный выбор! Пожалуйста, выберите существующий вариант.\n");
+            cout << "Error!" << endl;;
         }
     }
 
