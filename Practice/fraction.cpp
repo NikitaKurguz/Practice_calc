@@ -1,24 +1,13 @@
-#define _CRT_SECURE_NO_WARNINGS
+#include "fraction.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "fraction.h"
-
 
 static int gcd(int a, int b) {
     if (b == 0) {
         return a;
     }
-    else {
-        return gcd(b, a % b);
-    }
+    return gcd(b, a % b);
 }
-
-Fraction create_fraction(int num, int den) {
-    if (den == 0) den = 1;
-    Fraction f = { num, den };
-    return simplify_fraction(f);
-}
-
 void display_main_menu() {
     printf("\n=== ГЛАВНОЕ МЕНЮ ===\n");
     printf("1. Калькулятор обыкновенных дробей\n");
@@ -30,12 +19,79 @@ void display_main_menu() {
     printf("0. Выход\n");
     printf("Выберите опцию: ");
 }
+Fraction create_fraction(int num, int den) {
+    if (den == 0) {
+        den = 1;
+    }
+
+    int common_divisor = gcd(abs(num), abs(den));
+    Fraction f;
+    f.numerator = num / common_divisor;
+    f.denominator = den / common_divisor;
+
+    if (f.denominator < 0) {
+        f.numerator = -f.numerator;
+        f.denominator = -f.denominator;
+    }
+
+    return f;
+}
+
+Fraction add_fractions(Fraction a, Fraction b) {
+    Fraction result;
+    result.numerator = a.numerator * b.denominator + b.numerator * a.denominator;
+    result.denominator = a.denominator * b.denominator;
+    return create_fraction(result.numerator, result.denominator);
+}
+
+Fraction subtract_fractions(Fraction a, Fraction b) {
+    Fraction result;
+    result.numerator = a.numerator * b.denominator - b.numerator * a.denominator;
+    result.denominator = a.denominator * b.denominator;
+    return create_fraction(result.numerator, result.denominator);
+}
+
+Fraction multiply_fractions(Fraction a, Fraction b) {
+    Fraction result;
+    result.numerator = a.numerator * b.numerator;
+    result.denominator = a.denominator * b.denominator;
+    return create_fraction(result.numerator, result.denominator);
+}
+
+Fraction divide_fractions(Fraction a, Fraction b) {
+    Fraction result;
+    result.numerator = a.numerator * b.denominator;
+    result.denominator = a.denominator * b.numerator;
+    return create_fraction(result.numerator, result.denominator);
+}
+
+int compare_fractions(Fraction a, Fraction b) {
+    int left = a.numerator * b.denominator;
+    int right = b.numerator * a.denominator;
+
+    if (left < right) {
+        return -1;
+    }
+    if (left > right) {
+        return 1;
+    }
+    return 0;
+}
+
+
+double fraction_to_decimal(Fraction f) {
+    return (double)f.numerator / f.denominator;
+}
+
+void print_fraction(Fraction f) {
+    printf("%d/%d", f.numerator, f.denominator);
+}
 
 int input_fraction(Fraction* f) {
     int num, den;
-    printf("Введите дробь в формате числитель знаменатель: ");
-    if (scanf("%d %d", &num, &den) != 2 || den == 0) {
-        printf("Ошибка: некорректный ввод!\n");
+    printf("Введите дробь (числитель знаменатель): ");
+    if (scanf_s("%d %d", &num, &den) != 2 || den == 0) {
+        printf("Ошибка ввода! Знаменатель не может быть нулем.\n");
         while (getchar() != '\n');
         return 0;
     }
@@ -44,67 +100,77 @@ int input_fraction(Fraction* f) {
 }
 
 void fraction_calculator_run() {
-    int running = 1;
-    while (running) {
+    int choice;
+
+    do {
         printf("\n=== Калькулятор дробей ===\n");
-        printf("1. Сложение\n");
-        printf("2. Вычитание\n");
+        printf("1. Сложение дробей\n");
+        printf("2. Вычитание дробей\n");
         printf("3. Умножение\n");
         printf("4. Деление\n");
         printf("5. Сравнение\n");
-        printf("6. Сокращение дроби\n");
-        printf("7. Десятичное представление\n");
-        printf("0. Назад в главное меню\n");
+        printf("6. Десятичное представление\n");
+        printf("0. Выход\n");
         printf("Выберите операцию: ");
 
-        int choice;
-        if (scanf("%d", &choice) != 1) {
-            printf("Ошибка: введите число!\n");
+        if (scanf_s("%d", &choice) != 1) {
+            printf("Неверный ввод! Попробуйте снова.\n");
             while (getchar() != '\n');
             continue;
         }
 
-        Fraction a, b;
+        Fraction a, b, result;
+        int cmp;
+        double decimal;
+
         switch (choice) {
-        case 1:  // Сложение
+        case 1:
             if (input_fraction(&a) && input_fraction(&b)) {
-                Fraction res = add_fractions(a, b);
+                result = add_fractions(a, b);
                 printf("Результат: ");
-                print_fraction(res);
-                printf(" (? %.3f)\n", to_decimal(res));
+                print_fraction(a); printf(" + "); print_fraction(b);
+                printf(" = "); print_fraction(result);
+                printf(" (примерно %.3f)\n", fraction_to_decimal(result));
             }
             break;
-        case 2:  // Вычитание
+
+        case 2:
             if (input_fraction(&a) && input_fraction(&b)) {
-                Fraction res = subtract_fractions(a, b);
+                result = subtract_fractions(a, b);
                 printf("Результат: ");
-                print_fraction(res);
-                printf(" (? %.3f)\n", to_decimal(res));
+                print_fraction(a); printf(" - "); print_fraction(b);
+                printf(" = "); print_fraction(result);
+                printf(" (примерно %.3f)\n", fraction_to_decimal(result));
             }
             break;
-        case 3:  // Умножение
+
+        case 3:
             if (input_fraction(&a) && input_fraction(&b)) {
-                Fraction res = multiply_fractions(a, b);
+                result = multiply_fractions(a, b);
                 printf("Результат: ");
-                print_fraction(res);
-                printf(" (? %.3f)\n", to_decimal(res));
+                print_fraction(a); printf(" * "); print_fraction(b);
+                printf(" = "); print_fraction(result);
+                printf(" (примерно %.3f)\n", fraction_to_decimal(result));
             }
             break;
-        case 4:  // Деление
+
+        case 4:
             if (input_fraction(&a) && input_fraction(&b)) {
                 if (b.numerator == 0) {
                     printf("Ошибка: деление на ноль!\n");
                     break;
                 }
-                Fraction res = divide_fractions(a, b);
+                result = divide_fractions(a, b);
                 printf("Результат: ");
-                print_fraction(res);
-                printf(" (? %.3f)\n", to_decimal(res));
+                print_fraction(a); printf(" / "); print_fraction(b);
+                printf(" = "); print_fraction(result);
+                printf(" (примерно %.3f)\n", fraction_to_decimal(result));
             }
             break;
-        case 5:  // Сравнение
+
+        case 5:
             if (input_fraction(&a) && input_fraction(&b)) {
-                int cmp = compare_fractions(a, b);
+                cmp = compare_fractions(a, b);
                 print_fraction(a);
                 if (cmp < 0) {
                     printf(" < ");
@@ -115,28 +181,23 @@ void fraction_calculator_run() {
                 else {
                     printf(" == ");
                 }
-                print_fraction(b);
-                printf("\n");
+                print_fraction(b); printf("\n");
             }
             break;
-        case 6:  // Сокращение
+
+        case 6:
             if (input_fraction(&a)) {
-                Fraction res = simplify_fraction(a);
-                printf("Сокращённая дробь: ");
-                print_fraction(res);
-                printf("\n");
+                decimal = fraction_to_decimal(a);
+                printf("Десятичная форма: %.3f\n", decimal);
             }
             break;
-        case 7:  // Десятичное представление
-            if (input_fraction(&a)) {
-                printf("Десятичная форма: %.3f\n", to_decimal(a));
-            }
-            break;
+
         case 0:
-            running = 0;
             break;
+
         default:
-            printf("Неверный выбор!\n");
+            printf("Неверный выбор! Попробуйте снова.\n");
         }
-    }
+
+    } while (choice != 0);
 }

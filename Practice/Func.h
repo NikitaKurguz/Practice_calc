@@ -31,7 +31,7 @@ void drawFunction(double (*func)(double), double xMin, double xMax, SDL_Color co
 double findRoot(double (*func)(double), double a, double b, double epsilon);
 void findExtremes(double (*func)(double), double a, double b, double& min, double& max);
 double calculateIntegral(double (*func)(double), double a, double b, int n);
-void Menu();
+void text_Menu();
 int FunctionType();
 Polynomial inputPolynomial();
 FunctionParams inputFunctionParams();

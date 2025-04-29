@@ -223,7 +223,7 @@ void obratnayaMatrOdinNaOdin(double** matr, int stroki, int stolbci) {
     printf("обратная матрица:\n");
     printf("%.2lf ", res);
 }
-void menu() {
+void menu_matr() {
     double** matr, ** matr1, ** matr2;
     int stroki, stolbci, stroki1, stolbci1, stroki2, stolbci2, n, n1, n2;
     do {

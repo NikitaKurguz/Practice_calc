@@ -17,4 +17,4 @@ void opredelitelMatrChetireNaChetire(double **matr,int stroki,int stolbci);
 void obratnayaMatrOdinNaOdin(double** matr, int stroki, int stolbci);
 void obratnayaMatrDvaNaDva(double** matr, int stroki, int stolbci);
 void obratnayaMatrTriNaTri(double **matr,int stroki,int stolbci);
-void menu();
+void menu_matr();
